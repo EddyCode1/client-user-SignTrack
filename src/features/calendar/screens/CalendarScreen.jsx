@@ -1,3 +1,12 @@
+// Pantalla de calendario: muestra un calendario mensual, permite crear citas
+// y ver/iniciar reuniones asociadas. Comentarios añadidos para explicar
+// la intención de cada bloque y las funciones principales.
+// - Estado local: items, contacts, loading, selección, formulario
+// - Carga de datos: `load()` obtiene citas y directorio
+// - Utilidades: `getDaysInMonth`, `isSameDay`, `selectedDayEvents`
+// - Acciones: `handleCreate` (crea cita y envía invitaciones),
+//   `handleStartMeeting` (inicia reunión y navega a sala)
+
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Alert, TextInput, Modal, ActivityIndicator } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
