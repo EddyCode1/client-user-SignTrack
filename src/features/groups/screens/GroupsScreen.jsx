@@ -1,3 +1,5 @@
+// Pantalla de listados de grupos: carga grupos, permite crear y unirse.
+// Comentarios por bloque añadidos para facilitar lectura.
 import { useCallback, useState } from 'react'
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'

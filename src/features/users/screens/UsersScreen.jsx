@@ -1,4 +1,6 @@
 import { useCallback, useState } from 'react'
+// Pantalla de usuarios: lista usuarios, permite buscar y navegar al perfil.
+// Comentarios por bloque añadidos para facilitar mantenimiento.
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { deleteUser, getUsers } from '../../../shared/api/services/userService'

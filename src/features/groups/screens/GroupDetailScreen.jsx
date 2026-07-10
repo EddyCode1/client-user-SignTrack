@@ -1,3 +1,6 @@
+// Pantalla de detalle de grupo: muestra miembros, tareas y acciones
+// relacionadas (invitar, quitar, crear tareas, salir).
+// Comentarios por bloque añadidos para describir responsabilidades.
 import { useCallback, useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, FlatList, ScrollView, StyleSheet, Alert, ActivityIndicator, TextInput } from 'react-native'
 import { getGroup, getGroupMembers, inviteToGroup, leaveGroup, removeMember } from '../../../shared/api/services/groupService'

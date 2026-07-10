@@ -1,3 +1,5 @@
+// Pantalla de perfil del usuario: muestra datos básicos y opción
+// para cerrar sesión. Comentarios por bloque añadidos.
 import { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native'
 import { useAuthStore } from '../../../shared/stores/useAuthStore'

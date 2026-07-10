@@ -1,3 +1,5 @@
+// Pantalla de tareas: lista tareas, crear/actualizar/eliminar.
+// Comentarios por bloque añadidos para describir el flujo principal.
 import { useCallback, useEffect, useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
