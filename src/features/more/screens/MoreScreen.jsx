@@ -1,3 +1,6 @@
+// Pantalla "Más": lista accesos rápidos a otras secciones (tareas,
+// calendario, contactos, grupos, solicitudes y perfil). Comentarios
+// por bloque añadidos para clarificar la intención del componente.
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { COLORS, FONT_SIZE, SPACING, SHADOWS } from '../../../shared/constants/theme'
