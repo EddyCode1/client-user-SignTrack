@@ -1,3 +1,5 @@
+// Pantalla de contactos: busca en el directorio y permite iniciar chat
+// con un usuario creando una conversación.
 import { useCallback, useState } from 'react'
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'

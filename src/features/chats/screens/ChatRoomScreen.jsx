@@ -1,3 +1,6 @@
+// Pantalla de chat individual: gestiona mensajes, conexión al hub,
+// indicadores de escritura, y el panel de reconocimiento de señas.
+// Comentarios añadidos por bloque para facilitar lectura y mantenimiento.
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native'
 import { useAuthStore } from '../../../shared/stores/useAuthStore'

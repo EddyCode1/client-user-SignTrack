@@ -1,3 +1,6 @@
+// Pantalla de lista de conversaciones: carga conversaciones,
+// soporta refrescar y navegar a `ChatRoom`.
+// Comentarios por bloque añadidos para cada sección importante.
 import { useCallback, useEffect, useState } from 'react'
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'

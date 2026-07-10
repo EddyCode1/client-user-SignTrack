@@ -1,3 +1,6 @@
+// Panel de cámara para reconocimiento de señas.
+// - Captura frames periódicamente y pide predicción al servicio
+// - Acumula letras estables y permite enviar texto resultante
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native'
 import { CameraView, useCameraPermissions } from 'expo-camera'
