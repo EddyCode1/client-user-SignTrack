@@ -1,3 +1,7 @@
+// Pantalla de llamada usando LiveKit: conecta a una sala, muestra
+// los tracks de vídeo y controles básicos (silenciar, vídeo, colgar).
+// Comentarios por bloque añadidos para facilitar la lectura.
+
 import { useEffect, useState } from 'react'
 import {
   View,
@@ -22,7 +26,8 @@ import { getLiveKitToken } from '../../../shared/api/services/callsService'
 import { LIVEKIT_URL } from '../../../shared/config/env'
 import { COLORS, FONT_SIZE, SPACING } from '../../../shared/constants/theme'
 
-// Tile de participante remoto
+// Tile de participante remoto: componente pequeño que renderiza
+// el `VideoTrack` recibido desde LiveKit.
 const ParticipantTile = ({ trackRef }) => {
   return (
     <View style={styles.tile}>
@@ -31,7 +36,9 @@ const ParticipantTile = ({ trackRef }) => {
   )
 }
 
-// Contenido de la sala — usa hooks de LiveKit
+// Contenido de la sala — componente que usa hooks de LiveKit
+// para listar participantes, controlar audio/vídeo locales y
+// renderizar la cuadrícula de participantes.
 const RoomContent = ({ roomId, onLeave, room }) => {
   const participants = useParticipants()
   const { localParticipant } = useLocalParticipant()
@@ -95,7 +102,8 @@ const RoomContent = ({ roomId, onLeave, room }) => {
   )
 }
 
-// Pantalla principal que obtiene el token y monta la sala
+// Pantalla principal: obtiene token desde la API y monta
+// el `LiveKitRoom`. Maneja inicio/stop de la sesión de audio.
 const CallRoomLiveKitScreen = ({ route, navigation }) => {
   const { roomId } = route.params
   const [token, setToken] = useState(null)

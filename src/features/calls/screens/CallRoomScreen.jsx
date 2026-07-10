@@ -34,6 +34,9 @@ import { getRoom, joinRoom } from '../../../shared/api/services/callsService'
 import { useAuthStore } from '../../../shared/stores/useAuthStore'
 import { COLORS, FONT_SIZE, SPACING, SHADOWS } from '../../../shared/constants/theme'
 
+// Pantalla de llamada en mesh WebRTC: maneja conexiones peer-to-peer
+// con RTCPeerConnection manual, intercambio de SDP/ICE via hub,
+// gestión de streams locales/remotos y limpieza de recursos.
 const CallRoomScreen = ({ route, navigation }) => {
   const { roomId } = route.params
   const currentUser = useAuthStore((s) => s.user)

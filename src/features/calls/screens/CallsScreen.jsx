@@ -6,6 +6,9 @@ import { useAuthStore } from '../../../shared/stores/useAuthStore'
 import { COLORS, FONT_SIZE, SPACING, SHADOWS } from '../../../shared/constants/theme'
 import { formatDateTime } from '../../../shared/utils/formatters'
 
+// Pantalla de listados de reuniones: muestra salas activas y
+// recientes, permite crear una nueva sala y navegar a la sala apropiada
+// (mesh para ≤2, LiveKit para ≥3 participantes).
 const CallsScreen = ({ navigation }) => {
   const user = useAuthStore((s) => s.user)
   const [rooms, setRooms] = useState([])

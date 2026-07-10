@@ -7,7 +7,9 @@ import { COLORS, FONT_SIZE, SPACING, SHADOWS } from '../../../shared/constants/t
 
 /**
  * Modal global de llamada entrante.
- * Renderizado fuera del Stack.Navigator — usa navigationRef para navegar.
+ * - Se suscribe al hub de llamadas y muestra una UI simple para
+ *   aceptar o rechazar la llamada.
+ * - Usa `navigationRef` para navegar a la sala cuando se acepta.
  */
 const IncomingCallModal = () => {
   const [call, setCall] = useState(null)
