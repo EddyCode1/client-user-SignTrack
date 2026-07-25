@@ -1,156 +1,94 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Alert } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { authService } from '../../../shared/api/services/authService';
-import { useAuthStore } from '../../../shared/store/authStore';
-import { isClientRole } from '../../../shared/auth/roles';
+import { useState } from 'react'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { authService } from '../../../shared/api/services/authService'
+import { COLORS, FONT_SIZE, SPACING } from '../../../shared/constants/theme'
 
-/**
- * RegisterScreen
- * Pantalla de registro para nuevos clientes
- */
 const RegisterScreen = ({ navigation }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { control, handleSubmit, watch, formState: { errors } } = useForm({
-    defaultValues: {
-      nombre: '',
-      username: '',
-      email: '',
-      telefono: '',
-      password: '',
-      confirmPassword: '',
+  const [form, setForm] = useState({ name: '', surname: '', username: '', email: '', password: '', phone: '' })
+  const [loading, setLoading] = useState(false)
+
+  const handleChange = (field, value) => setForm((prev) => ({ ...prev, [field]: value }))
+
+  const handleSubmit = async () => {
+    if (!form.name || !form.surname || !form.username || !form.email || !form.password || !form.phone) {
+      Alert.alert('Error', 'Todos los campos son requeridos')
+      return
     }
-  });
-  const password = watch('password');
-
-  const { login } = useAuthStore();
-
-  const onSubmit = async (data) => {
-    setIsLoading(true);
-    try {
-      const res = await authService.register({
-        nombre: data.nombre,
-        username: data.username,
-        email: data.email,
-        telefono: data.telefono,
-        password: data.password,
-      });
-
-      if (res.success) {
-        const loginResult = await authService.login(data.email, data.password);
-        const role = loginResult.user?.rol || loginResult.user?.role;
-        if (loginResult.success && loginResult.token && isClientRole(role)) {
-          await login(
-            loginResult.token,
-            loginResult.user,
-            loginResult.refreshToken,
-            loginResult.expiresAt,
-          );
-          Alert.alert('Éxito', 'Cuenta creada. ¡Bienvenido!');
-        } else {
-          Alert.alert('Éxito', 'Cuenta creada. Inicia sesión con tu correo.');
-          navigation.navigate('Login');
-        }
-      } else {
-        Alert.alert('Error', res.error || 'No se pudo crear la cuenta');
-      }
-    } catch {
-      Alert.alert('Error', 'No se pudo crear la cuenta, intenta de nuevo');
-    } finally {
-      setIsLoading(false);
+    setLoading(true)
+    const result = await authService.register(form)
+    if (result.success) {
+      Alert.alert('Éxito', 'Usuario registrado exitosamente')
+      navigation.navigate('Login')
+    } else {
+      Alert.alert('Error', result.error)
     }
-  };
+    setLoading(false)
+  }
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.header}>
-        <Text style={styles.badge}>NUEVO ACCESO</Text>
+    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>Crear cuenta</Text>
-        <Text style={styles.subtitle}>Regístrate para gestionar tus pedidos y reservas.</Text>
-      </View>
+        <Text style={styles.subtitle}>Únete a la plataforma inclusiva SignTrack</Text>
 
-      {/* Form Fields using Controller for React Native compatibility */}
-      {[
-        { name: 'nombre', label: 'Nombre completo', placeholder: 'Tu nombre' },
-        { name: 'username', label: 'Usuario', placeholder: 'nombre_usuario' },
-        { name: 'email', label: 'Correo electrónico', placeholder: 'tu@email.com', keyboard: 'email-address' },
-        { name: 'telefono', label: 'Teléfono', placeholder: '123456789', keyboard: 'phone-pad' },
-      ].map((field) => (
-        <View key={field.name} style={styles.inputGroup}>
-          <Text style={styles.label}>{field.label}</Text>
-          <Controller
-            control={control}
-            rules={{ required: `${field.label} requerido` }}
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder={field.placeholder}
-                placeholderTextColor="#A1A1AA"
-                onChangeText={onChange}
-                value={value}
-                keyboardType={field.keyboard || 'default'}
-              />
-            )}
-            name={field.name}
-          />
-          {errors[field.name] && <Text style={styles.errorText}>{errors[field.name].message}</Text>}
+        <View style={styles.form}>
+          <Text style={styles.label}>Nombre</Text>
+          <TextInput style={styles.input} value={form.name} onChangeText={(v) => handleChange('name', v)} />
+
+          <Text style={styles.label}>Apellido</Text>
+          <TextInput style={styles.input} value={form.surname} onChangeText={(v) => handleChange('surname', v)} />
+
+          <Text style={styles.label}>Usuario</Text>
+          <TextInput style={styles.input} value={form.username} onChangeText={(v) => handleChange('username', v)} autoCapitalize="none" />
+
+          <Text style={styles.label}>Correo electrónico</Text>
+          <TextInput style={styles.input} value={form.email} onChangeText={(v) => handleChange('email', v)} autoCapitalize="none" keyboardType="email-address" />
+
+          <Text style={styles.label}>Contraseña</Text>
+          <TextInput style={styles.input} value={form.password} onChangeText={(v) => handleChange('password', v)} secureTextEntry />
+
+          <Text style={styles.label}>Teléfono</Text>
+          <TextInput style={styles.input} value={form.phone} onChangeText={(v) => handleChange('phone', v)} keyboardType="phone-pad" maxLength={8} />
+
+          <TouchableOpacity style={[styles.button, loading && styles.buttonDisabled]} onPress={handleSubmit} disabled={loading}>
+            <Text style={styles.buttonText}>{loading ? 'Registrando...' : 'Registrarse'}</Text>
+          </TouchableOpacity>
         </View>
-      ))}
 
-      {/* Password Fields */}
-      <View style={styles.inputGroup}>
-        <Text style={styles.label}>Contraseña</Text>
-        <Controller
-          control={control}
-          rules={{ required: 'Contraseña requerida' }}
-          render={({ field: { onChange, value } }) => (
-            <TextInput style={styles.input} placeholder="••••••••" placeholderTextColor="#A1A1AA" onChangeText={onChange} value={value} secureTextEntry />
-          )}
-          name="password"
-        />
-      </View>
-
-      <View style={styles.inputGroup}>
-        <Text style={styles.label}>Confirmar contraseña</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: 'Confirmar contraseña',
-            validate: (value) => value === password || 'Las contraseñas no coinciden',
-          }}
-          render={({ field: { onChange, value } }) => (
-            <TextInput style={styles.input} placeholder="••••••••" placeholderTextColor="#A1A1AA" onChangeText={onChange} value={value} secureTextEntry />
-          )}
-          name="confirmPassword"
-        />
-        {errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword.message}</Text>}
-      </View>
-
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)} disabled={isLoading}>
-        {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Crear cuenta</Text>}
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.footerLink}>¿Ya tienes cuenta? <Text style={styles.boldLink}>Inicia sesión</Text></Text>
-      </TouchableOpacity>
-    </ScrollView>
-  );
-};
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.link}>¿Ya tienes cuenta? Inicia sesión</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  )
+}
 
 const styles = StyleSheet.create({
-  scrollContainer: { padding: 20, backgroundColor: '#FAFAFA' },
-  header: { marginBottom: 30 },
-  badge: { fontSize: 10, fontWeight: '700', color: '#52525B', backgroundColor: '#E4E4E7', paddingHorizontal: 8, paddingVertical: 4, alignSelf: 'flex-start', borderRadius: 12 },
-  title: { fontSize: 30, fontWeight: 'bold', color: '#18181B', marginTop: 10 },
-  subtitle: { fontSize: 14, color: '#52525B', marginTop: 5 },
-  inputGroup: { marginBottom: 15 },
-  label: { fontSize: 14, fontWeight: '500', color: '#3F3F46', marginBottom: 5 },
-  input: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#D4D4D8', borderRadius: 12, paddingHorizontal: 15, paddingVertical: 12 },
-  errorText: { fontSize: 12, color: '#DC2626', marginTop: 3 },
-  button: { backgroundColor: '#18181B', paddingVertical: 15, borderRadius: 12, alignItems: 'center', marginTop: 10 },
-  buttonText: { color: '#fff', fontWeight: '600' },
-  footerLink: { textAlign: 'center', marginTop: 20, color: '#52525B', fontSize: 14 },
-  boldLink: { fontWeight: '700', color: '#18181B' }
-});
+  flex: { flex: 1, backgroundColor: COLORS.background },
+  container: { flexGrow: 1, padding: SPACING.xl },
+  title: { fontSize: FONT_SIZE.huge, fontWeight: '700', color: COLORS.text, textAlign: 'center', marginTop: SPACING.xl },
+  subtitle: { fontSize: FONT_SIZE.sm, color: COLORS.muted, textAlign: 'center', marginTop: SPACING.xs, marginBottom: SPACING.xl },
+  form: { marginBottom: SPACING.lg },
+  label: { fontSize: FONT_SIZE.sm, fontWeight: '600', color: COLORS.text, marginBottom: SPACING.xs, marginTop: SPACING.md },
+  input: {
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 10,
+    padding: SPACING.md,
+    fontSize: FONT_SIZE.md,
+    color: COLORS.text,
+  },
+  button: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 10,
+    padding: SPACING.md,
+    alignItems: 'center',
+    marginTop: SPACING.lg,
+  },
+  buttonDisabled: { opacity: 0.6 },
+  buttonText: { color: '#fff', fontSize: FONT_SIZE.md, fontWeight: '700' },
+  link: { color: COLORS.primary, textAlign: 'center', marginTop: SPACING.md, fontSize: FONT_SIZE.sm },
+})
 
-export default RegisterScreen;
+export default RegisterScreen

@@ -1,28 +1,27 @@
-import { Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from "expo-secure-store";
+import * as SecureStore from 'expo-secure-store'
+import { Platform } from 'react-native'
 
-const REFRESH_TOKEN_KEY = "refreshToken";
+const KEY = 'signtrack_refresh_token'
 
-export async function getRefreshToken() {
-    if (Platform.OS === "web") {
-        return AsyncStorage.getItem(REFRESH_TOKEN_KEY);
-    }
-    return SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
+export const setRefreshToken = async (token) => {
+  if (Platform.OS === 'web') {
+    localStorage.setItem(KEY, token)
+    return
+  }
+  await SecureStore.setItemAsync(KEY, token)
 }
 
-export async function setRefreshToken(value) {
-    if (Platform.OS === "web") {
-        await AsyncStorage.setItem(REFRESH_TOKEN_KEY, value);
-        return;
-    }
-    await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, value);
+export const getRefreshToken = async () => {
+  if (Platform.OS === 'web') {
+    return localStorage.getItem(KEY)
+  }
+  return SecureStore.getItemAsync(KEY)
 }
 
-export async function deleteRefreshToken() {
-    if (Platform.OS === "web") {
-        await AsyncStorage.removeItem(REFRESH_TOKEN_KEY);
-        return;
-    }
-    await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
+export const deleteRefreshToken = async () => {
+  if (Platform.OS === 'web') {
+    localStorage.removeItem(KEY)
+    return
+  }
+  await SecureStore.deleteItemAsync(KEY)
 }

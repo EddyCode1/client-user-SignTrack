@@ -1,43 +1,22 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CustomerMainLayout from '../features/layout/screens/CustomerMainLayout';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import MainTabs from './MainTabs'
+import ChatRoomScreen from '../features/chats/screens/ChatRoomScreen'
+import GroupDetailScreen from '../features/groups/screens/GroupDetailScreen'
+import UsersScreen from '../features/users/screens/UsersScreen'
+import NotFoundScreen from '../features/common/screens/NotFoundScreen'
+import UnauthorizedScreen from '../features/common/screens/UnauthorizedScreen'
 
-import MainTabs from './MainTabs';
-import CustomerMapaGeneralScreen from '../features/mapa/screens/CustomerMapaGeneralScreen';
-import CustomerRestaurantMapScreen from '../features/mapa/screens/CustomerRestaurantMapScreen';
-import CustomerRestaurantMenuScreen from '../features/menu/screens/CustomerRestaurantMenuScreen';
-import CustomerOrderCreateScreen from '../features/orders/screens/CustomerOrderCreateScreen';
-import CustomerReservationCreateScreen from '../features/reservations/screens/CustomerReservationCreateScreen';
-import CustomerFacturaScreen from '../features/factura/screens/CustomerFacturaScreen';
-import CustomerFacturaPrintScreen from '../features/factura/screens/CustomerFacturaPrintScreen';
-import CustomerTableLayoutScreen from '../features/tables/screens/CustomerTableLayoutScreen';
-import CustomerReviewsScreen from '../features/restaurants/screens/CustomerReviewsScreen';
-
-const Stack = createNativeStackNavigator();
-
-function MainTabsWithLayout() {
-  return (
-    <CustomerMainLayout>
-      <MainTabs />
-    </CustomerMainLayout>
-  );
-}
+const Stack = createNativeStackNavigator()
 
 export default function MainStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="MainTabs" component={MainTabsWithLayout} />
-      <Stack.Screen name="MapaGeneral" component={CustomerMapaGeneralScreen} />
-      <Stack.Screen name="RestaurantMap" component={CustomerRestaurantMapScreen} />
-      <Stack.Screen name="RestaurantMenu" component={CustomerRestaurantMenuScreen} />
-      <Stack.Screen name="RestaurantOrders" component={CustomerOrderCreateScreen} />
-      <Stack.Screen name="OrderCreate" component={CustomerOrderCreateScreen} />
-      <Stack.Screen name="CreateReservation" component={CustomerReservationCreateScreen} />
-      <Stack.Screen name="TableLayout" component={CustomerTableLayoutScreen} />
-      <Stack.Screen name="Reviews" component={CustomerReviewsScreen} />
-      <Stack.Screen name="OrderDetails" component={CustomerFacturaScreen} />
-      <Stack.Screen name="Factura" component={CustomerFacturaScreen} />
-      <Stack.Screen name="FacturaPrint" component={CustomerFacturaPrintScreen} />
+      <Stack.Screen name="MainTabs" component={MainTabs} />
+      <Stack.Screen name="ChatRoom" component={ChatRoomScreen} />
+      <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
+      <Stack.Screen name="Users" component={UsersScreen} />
+      <Stack.Screen name="NotFound" component={NotFoundScreen} />
+      <Stack.Screen name="Unauthorized" component={UnauthorizedScreen} />
     </Stack.Navigator>
-  );
+  )
 }

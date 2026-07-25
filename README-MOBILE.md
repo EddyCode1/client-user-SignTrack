@@ -1,63 +1,54 @@
-# Cliente móvil — Arranque nativo
+# SignTrack Mobile — Cliente móvil
 
-Guía rápida para desarrollo Android/iOS. Ver también [`deploy/README.md`](deploy/README.md).
-
-## Un solo comando (recomendado)
-
-```bash
-pnpm install
-pnpm start:all
-```
-
-Eso hace **todo en orden**:
-1. Crea `.env` si falta
-2. Levanta Docker (Mongo + API + web)
-3. **Primera vez:** compila e instala la app Android **con mapas** (`expo prebuild` + `run:android`)
-4. Arranca Metro (`expo dev`)
-
-| Servicio | URL |
-|----------|-----|
-| API (Docker) | http://localhost:3016/GestorRestaurante/v1/health |
-| App web (Docker) | http://localhost:8082 |
-| Metro / dev client | QR en terminal |
-
-> **No uses Expo Go.** Requiere dev build (`expo-dev-client` + `react-native-maps`).
-
-### Días siguientes (ya compilaste una vez)
-
-```bash
-pnpm start:all
-```
-
-Salta el compile nativo si existe `.expo/native-android-ready`.
-
-Solo Metro + Docker:
-
-```bash
-pnpm docker:up && pnpm dev
-```
-
-### Forzar rebuild de mapas / plugins nativos
-
-```bash
-pnpm rebuild:native
-pnpm dev
-```
+App móvil de SignTrack construida con Expo (React Native). Comunicación inclusiva con chat, videollamadas, tareas, calendario y contactos.
 
 ## Requisitos
 
 - Node 22 + pnpm
-- Docker Desktop
 - Android Studio (emulador) o dispositivo físico
 
-## Credenciales de prueba
+## Desarrollo
 
-| Email                   | Password     | Rol     |
-|-------------------------|--------------|---------|
-| cliente@restaurante.com | Cliente1234  | CLIENTE |
+```bash
+pnpm install
+pnpm dev
+```
 
-## Mapas
+Esto inicia Metro bundler. Escanea el QR con la app Expo Go o un dev build.
 
-Ver [`docs/MAPAS.md`](docs/MAPAS.md).
+## Scripts disponibles
 
-Si ves *"Mapa nativo no disponible"*: corre `pnpm rebuild:native` o `pnpm start:all` (borra `.expo/native-android-ready` antes).
+| Comando | Descripción |
+|---------|-------------|
+| `pnpm dev` | Inicia Metro con dev-client |
+| `pnpm android` | Compila y corre en Android |
+| `pnpm ios` | Compila y corre en iOS |
+| `pnpm web` | Corre versión web |
+| `pnpm prebuild` | Genera proyectos nativos |
+
+## Estructura del proyecto
+
+```
+src/
+├── features/
+│   ├── auth/        — Login, registro, recuperación
+│   ├── dashboard/   — Pantalla principal
+│   ├── chats/       — Mensajería en tiempo real (SignalR)
+│   ├── calls/       — Videollamadas (LiveKit / WebRTC)
+│   ├── tasks/       — Gestión de tareas
+│   ├── calendar/    — Calendario y citas
+│   ├── contacts/    — Directorio de usuarios
+│   ├── groups/      — Grupos de trabajo
+│   ├── requests/    — Solicitudes e invitaciones
+│   └── users/       — Perfil y administración
+├── navigation/      — Stack y tabs de navegación
+└── shared/          — API, stores, componentes, utilerías
+```
+
+## Tecnologías principales
+
+- **Expo SDK 55** + React Native 0.83
+- **React Navigation** (native-stack + bottom-tabs)
+- **SignalR** para mensajería y llamadas en tiempo real
+- **Zustand** + AsyncStorage para estado persistente
+- **Axios** para llamadas HTTP

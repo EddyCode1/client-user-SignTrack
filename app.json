@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "client-user-restaurant",
-    "slug": "client-user-restaurant",
+    "name": "SignTrack Mobile",
+    "slug": "client-user-signtrack",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,36 +9,27 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#5b5fc7"
     },
     "ios": {
       "supportsTablet": true,
-      "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Omakase usa tu ubicación para mostrar restaurantes cercanos y rutas en el mapa."
-      },
-      "bundleIdentifier": "com.omakase.clientuser"
+      "bundleIdentifier": "com.signtrack.clientuser"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#5b5fc7",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.omakase.clientuser",
-      "permissions": [
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"
-      ]
+      "package": "com.signtrack.clientuser"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-dev-client",
-      "expo-location",
       "expo-secure-store",
-      "expo-sharing",
       "@react-native-community/datetimepicker"
     ],
     "experiments": {
@@ -46,7 +37,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "dce076f1-261d-4a08-9267-6ea01fdb193c"
+        "projectId": "signtrack-mobile"
       }
     }
   }
