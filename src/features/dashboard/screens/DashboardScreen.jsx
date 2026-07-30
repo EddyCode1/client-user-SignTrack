@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { useAuthStore } from '../../../shared/stores/useAuthStore'
 import { isAdminRole } from '../../../shared/utils/roles'
 import { COLORS, FONT_SIZE, SPACING, SHADOWS } from '../../../shared/constants/theme'
+import { getCallsHubConnection } from '../../../shared/api/callsHubService'
+import { updatePresence } from '../../../shared/api/services/presenceService'
 
 const NAV_ITEMS = [
   { key: 'Profile', icon: 'person-outline', label: 'Mi perfil', color: '#8b5cf6' },
@@ -21,6 +23,12 @@ const DashboardScreen = ({ navigation }) => {
   const isAdmin = isAdminRole(user?.rol)
   const firstName = (user?.nombre || 'Usuario').split(' ')[0]
   const [refreshing, setRefreshing] = useState(false)
+
+  // Conectar hub de llamadas en cuanto entra al dashboard para recibir IncomingCall
+  useEffect(() => {
+    getCallsHubConnection().catch(() => {})
+    updatePresence('online').catch(() => {})
+  }, [])
 
   const onRefresh = async () => {
     setRefreshing(true)

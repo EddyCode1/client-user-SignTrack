@@ -12,6 +12,9 @@
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://signtrack-kinal.duckdns.org"
       }
     },
     "production": {
@@ -19,9 +22,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_AUTH_URL": "https://gesti-n-de-restaurante.onrender.com/GestorRestaurante/v1/auth",
-        "EXPO_PUBLIC_API_BASE": "https://gesti-n-de-restaurante.onrender.com/GestorRestaurante/v1",
-        "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY": "AIzaSyBKUMbKX_vk-w3gErnEtOIYVhyuD3wNDI8"
+        "EXPO_PUBLIC_API_URL": "https://signtrack-kinal.duckdns.org"
       }
     }
   },

@@ -6,15 +6,13 @@ RUN npm install -g pnpm@10.29.3 && pnpm install --frozen-lockfile
 
 COPY . .
 
-ARG EXPO_PUBLIC_DEV_HOST=localhost
-ARG EXPO_PUBLIC_API_PORT=3006
-ARG EXPO_PUBLIC_AUTH_URL=https://gesti-n-de-restaurante.onrender.com/GestorRestaurante/v1/auth
-ARG EXPO_PUBLIC_API_BASE=https://gesti-n-de-restaurante.onrender.com/GestorRestaurante/v1
+ARG EXPO_PUBLIC_API_URL=https://signtrack-kinal.duckdns.org
+ARG EXPO_PUBLIC_DEV_HOST=192.168.1.160
+ARG EXPO_PUBLIC_LIVEKIT_URL=wss://signtrack-kinal.duckdns.org/livekit
 
+ENV EXPO_PUBLIC_API_URL=$EXPO_PUBLIC_API_URL
 ENV EXPO_PUBLIC_DEV_HOST=$EXPO_PUBLIC_DEV_HOST
-ENV EXPO_PUBLIC_API_PORT=$EXPO_PUBLIC_API_PORT
-ENV EXPO_PUBLIC_AUTH_URL=$EXPO_PUBLIC_AUTH_URL
-ENV EXPO_PUBLIC_API_BASE=$EXPO_PUBLIC_API_BASE
+ENV EXPO_PUBLIC_LIVEKIT_URL=$EXPO_PUBLIC_LIVEKIT_URL
 
 RUN npx expo export --platform web
 

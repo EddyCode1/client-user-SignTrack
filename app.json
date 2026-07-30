@@ -13,7 +13,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.signtrack.clientuser"
+      "bundleIdentifier": "com.signtrack.clientuser",
+      "infoPlist": {
+        "NSCameraUsageDescription": "SignTrack necesita la cámara para videollamadas y reconocimiento de señas.",
+        "NSMicrophoneUsageDescription": "SignTrack necesita el micrófono para videollamadas.",
+        "NSLocalNetworkUsageDescription": "SignTrack usa la red local para conectarse al servidor SignTrack."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +27,16 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.signtrack.clientuser"
+      "package": "com.signtrack.clientuser",
+      "usesCleartextTraffic": true,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.ACCESS_WIFI_STATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,7 +44,13 @@
     "plugins": [
       "expo-dev-client",
       "expo-secure-store",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "SignTrack necesita la cámara para videollamadas y reconocimiento de señas."
+        }
+      ]
     ],
     "experiments": {
       "tsconfigPaths": false

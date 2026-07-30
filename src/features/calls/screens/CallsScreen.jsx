@@ -41,6 +41,17 @@ const CallsScreen = ({ navigation }) => {
       .finally(() => setHistoryLoading(false))
   }, [tab])
 
+  // Elige la pantalla según número de participantes:
+  // mesh WebRTC para ≤2, LiveKit para ≥3
+  const navigateToRoom = (room) => {
+    const participantCount = room?.participantCount || 0
+    if (participantCount >= 3) {
+      navigation.navigate('CallRoomLiveKit', { roomId: room.id })
+    } else {
+      navigation.navigate('CallRoom', { roomId: room.id })
+    }
+  }
+
   const handleCreate = async () => {
     if (!title.trim()) return
     setCreating(true)
@@ -52,7 +63,7 @@ const CallsScreen = ({ navigation }) => {
       })
       setTitle('')
       setShowCreate(false)
-      navigation.navigate('CallRoom', { roomId: room.id })
+      navigateToRoom(room)
     } catch (err) {
       Alert.alert('Error', err.response?.data?.message || 'No se pudo crear la reunión')
     } finally {
@@ -112,7 +123,7 @@ const CallsScreen = ({ navigation }) => {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={[styles.roomItem, SHADOWS.sm]}
-              onPress={() => navigation.navigate('CallRoom', { roomId: item.id })}
+              onPress={() => navigateToRoom(item)}
             >
               <Text style={styles.roomTitle}>{item.title}</Text>
               <Text style={styles.roomMeta}>

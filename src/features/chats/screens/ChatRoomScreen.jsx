@@ -4,6 +4,7 @@ import { useAuthStore } from '../../../shared/stores/useAuthStore'
 import { getMessages, markConversationRead, sendMessage } from '../../../shared/api/services/chatService'
 import { getChatHubConnection, joinConversationHub, leaveConversationHub, onReceiveMessage, onUserTyping, sendTypingHub } from '../../../shared/api/chatHubService'
 import { COLORS, FONT_SIZE, SPACING, SHADOWS } from '../../../shared/constants/theme'
+import SignCameraPanel from '../components/SignCameraPanel'
 
 const ChatRoomScreen = ({ route, navigation }) => {
   const { conversationId } = route.params
@@ -15,6 +16,7 @@ const ChatRoomScreen = ({ route, navigation }) => {
   const [sending, setSending] = useState(false)
   const [hubReady, setHubReady] = useState(false)
   const [typingUserId, setTypingUserId] = useState(null)
+  const [showSignPanel, setShowSignPanel] = useState(false)
   const flatListRef = useRef(null)
   const typingTimeoutRef = useRef(null)
   const typingClearRef = useRef(null)
@@ -176,7 +178,27 @@ const ChatRoomScreen = ({ route, navigation }) => {
           <Text style={styles.typingText}>Alguien está escribiendo...</Text>
         )}
 
+        {showSignPanel && (
+          <SignCameraPanel
+            onSend={async (signText) => {
+              setSending(true)
+              try {
+                const msg = await sendMessage(conversationId, signText)
+                appendMessage(msg)
+              } catch {
+                // error
+              } finally {
+                setSending(false)
+              }
+            }}
+            onClose={() => setShowSignPanel(false)}
+          />
+        )}
+
         <View style={styles.inputContainer}>
+          <TouchableOpacity style={styles.signBtn} onPress={() => setShowSignPanel((v) => !v)}>
+            <Text style={styles.signBtnText}>🤟</Text>
+          </TouchableOpacity>
           <TextInput
             style={styles.input}
             value={text}
@@ -230,6 +252,12 @@ const styles = StyleSheet.create({
   translationLabel: { fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.5, opacity: 0.7, marginBottom: 2 },
   emptyText: { color: COLORS.muted, textAlign: 'center', marginTop: SPACING.xl },
   typingText: { fontSize: FONT_SIZE.xs, color: COLORS.muted, fontStyle: 'italic', paddingHorizontal: SPACING.md, marginBottom: 4 },
+  signBtn: {
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.sm,
+    justifyContent: 'center',
+  },
+  signBtnText: { fontSize: 20 },
   inputContainer: {
     flexDirection: 'row',
     padding: SPACING.sm,
