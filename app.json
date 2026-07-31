@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SignTrack Mobile",
-    "slug": "client-user-signtrack",
+    "slug": "singtrack",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -57,8 +57,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "signtrack-mobile"
+        "projectId": "30fd5257-3d85-48d6-b087-ccaae471745c"
       }
-    }
+    },
+    "owner": "astral910s-team"
   }
 }

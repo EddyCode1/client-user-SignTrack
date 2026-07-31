@@ -14,7 +14,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://cups-surveys-reception-technological.trycloudflare.com"
+        "EXPO_PUBLIC_API_URL": "https://signtrack-gateway.onrender.com"
       }
     },
     "production": {
@@ -22,7 +22,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://signtrack-kinal.duckdns.org"
+        "EXPO_PUBLIC_API_URL": "https://signtrack-gateway.onrender.com"
       }
     }
   },
